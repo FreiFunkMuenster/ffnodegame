@@ -12,8 +12,9 @@ while !result
   rescue
     result = false
   end
-  if !result && failed < 10
+  if !result
     failed += 1
+    break if failed >= 3
     log 'Failed loading node data! Retrying in 60 seconds...'
     sleep 60
   end
