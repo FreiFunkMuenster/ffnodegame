@@ -9,6 +9,9 @@
 #--------
 #
 
+TITLE = "Freifunk Lübeck Node Highscores"
+GRAPHLINK='http://burgtor.ffhl/mesh/nodes.html'
+
 #source path of node data
 JSONSRC='http://burgtor.ffhl/mesh/nodes.json'
 

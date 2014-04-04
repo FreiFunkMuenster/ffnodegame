@@ -9,6 +9,9 @@
 #--------
 #
 
+TITLE = "Freifunk Paderborn Node Highscores"
+GRAPHLINK='http://map.paderborn.freifunk.net/'
+
 #source path of node data
 JSONSRC='http://map.paderborn.freifunk.net/nodes.json'
 

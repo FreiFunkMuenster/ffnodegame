@@ -12,10 +12,6 @@ require 'sinatra'
 require './settings'
 require './scores'
 
-#some constants
-TITLE = "Freifunk Paderborn Node Highscores"
-GRAPHLINK='http://map.paderborn.freifunk.net/'
-
 log "---- APPLICATION STARTING ----"
 
 get '/update' do
