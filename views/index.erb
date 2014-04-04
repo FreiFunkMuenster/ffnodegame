@@ -59,6 +59,12 @@ end
             <strong>pro Client</strong>: <%= SC_PERCLIENT %>
             <strong>pro Mesh-Link</strong>: <%= SC_PERMESH %>/Qualität
             <strong>pro VPN-Link</strong>: <%= SC_PERVPN %>/Qualität
+            <% if defined? SC_BRANCH %>
+              <br />
+              <strong>Firmware</strong>: 
+              <% SC_BRANCH.to_a.sort_by { |x| x[1] }.each do |branch_info| %><strong><%= branch_info[0] %></strong>: <%= branch_info[1] %> <% end%>
+              <strong>old</strong>: <%= SC_OLDFIRMWARE %>
+            <% end %>
             <br />
             <br />
         </div>
