@@ -24,6 +24,7 @@ SC_GATEWAY=100
 SC_PERCLIENT=25
 SC_PERVPN=10 #divided by quality
 SC_PERMESH=50 #divided by quality
+SC_GEO=0
 
 #fun option - penalty for Apple devices connected
 PUNISHAPPLE=true

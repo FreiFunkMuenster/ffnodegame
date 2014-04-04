@@ -48,6 +48,7 @@ end
                         <%= format_score("Apple",  n['sc_apples']) %>
                         <%= format_score("Mesh",   n['sc_meshs']) %>
                         <%= format_score("Vpn",    n['sc_vpns']) %>
+                        <%= format_score("Geo",    n['sc_geo']) %>
                         <%= format_score("Fw",     n['sc_firmware'], n['firmware_info']) %>
 			<% if n['firmware_info'] && n['sc_firmware'] %>(<%= n['firmware_info'][0] %>)<% end %>
                     </td>

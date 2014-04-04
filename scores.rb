@@ -240,7 +240,7 @@ class Scores
     routers.each do |r|
       r['flags'].delete 'client' #no clients in array anyway
       r['flags'].delete 'vpn' #not used
-      r.delete 'geo'  #not interesting
+      r['geo'] = !!r['geo']
       r.delete 'macs' #not interesting
       r.delete 'id' #not interesting
     end
@@ -276,6 +276,8 @@ class Scores
     p[0] += ( node['sc_meshs'] = node['meshs'].map{|e| SC_PERMESH / e}.inject(&:+).to_i )
 
     p[0] += ( node['sc_firmware'] = ( (node['firmware_info'] && node['firmware_info'][1]) || 0 ).to_i )
+
+    p[0] += ( node['sc_geo'] = ( node['geo'] ? (SC_GEO||0) : 0 ) )
   end
 
   #update scores, add new nodes, remove old nodes with <=0 points

@@ -33,6 +33,7 @@ SC_PERVPN=10 #divided by quality
 SC_PERMESH=50 #divided by quality
 SC_OLDFIRMWARE=-10
 SC_BRANCH={"stable" => 0, "testing" => 20}
+SC_GEO=5
 
 #fun option - penalty for Apple devices connected
 PUNISHAPPLE=false
