@@ -118,7 +118,7 @@ class Scores
     end
  
     if prev
-      return ["old " + prev[0], SC_OLDFIRMWARE]
+      return ["old", SC_OLDFIRMWARE]
     else
       return ["???", 0]
     end
@@ -132,7 +132,7 @@ class Scores
       version = newest_firmware_version_for_branch(branch)
       current_firmware_versions << [ branch, version, (SC_BRANCH[branch] || 0) ] if version
     end
-    current_firmware_versions.sort_by! { |x| x[1] }
+    current_firmware_versions.sort_by! { |x| [ x[1], -BRANCHES.index(x[0]) ] }
     current_firmware_versions.reverse!
     return current_firmware_versions
   end
