@@ -16,7 +16,11 @@ GRAPHLINK='http://map.paderborn.freifunk.net/'
 JSONSRC='http://map.paderborn.freifunk.net/nodes.json'
 
 #password for commands over GET requests
-PWD='hackme'
+if File.exists? 'pwd.secret'
+    PWD=File.read 'pwd.secret'
+else
+    PWD='hackme'
+end
 
 #score values
 SC_OFFLINE=-100

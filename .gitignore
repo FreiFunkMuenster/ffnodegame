@@ -3,4 +3,5 @@ nodes.json
 tmp/
 log.txt
 /settings.rb
+/pwd.secret
 .*
