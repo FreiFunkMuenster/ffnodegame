@@ -76,7 +76,9 @@ class Scores
     merge scores, snapshot
 
     scorejson = JSON.generate scores
-    File.write @@scorepath, scorejson
+    File.open(@@scorepath, "w") do |f|
+        f.write scorejson
+    end
     return true
   end
 
