@@ -70,9 +70,12 @@ class Scores
       return false #failed!
     end
 
+    current_firmware_versions = fetch_firmware_versions()
+
     #NOTE: filtering and analyzing of JSON data fits perfectly here
     data = JSON.parse jsonstr
     snapshot = transform data
+    score_firmware_for_snapshot snapshot, current_firmware_versions if current_firmware_versions
     merge scores, snapshot
 
     scorejson = JSON.generate scores
@@ -80,6 +83,94 @@ class Scores
         f.write scorejson
     end
     return true
+  end
+
+  def self.score_firmware(current_firmware_versions, firmware)
+    if not current_firmware_versions
+      return ["", 0]
+    end
+
+    if not firmware
+      return ["unknown", 0]
+    end
+
+    firmware = parse_firmware(firmware)
+
+    if not firmware
+      return ["custom", 0]
+    end
+
+    prev = nil
+    current_firmware_versions.each do |fwinfo|
+      cmp = compare_firmware_versions(firmware, fwinfo[1])
+      if cmp > 0
+        if prev
+          return ["old " + prev[0], (prev[2]+fwinfo[2])/2]
+        else
+          # hm, a _very_ new one
+          return ["newer than " + fwinfo[0], fwinfo[2]]
+        end
+      elsif cmp == 0
+        return [fwinfo[0], fwinfo[2]]
+      end
+
+      prev = fwinfo
+    end
+ 
+    if prev
+      return ["old " + prev[0], SC_OLDFIRMWARE]
+    else
+      return ["???", 0]
+    end
+  end
+
+  def self.fetch_firmware_versions
+    return nil unless BRANCHES and MANIFESTSRC and VERSION_PATTERN
+
+    current_firmware_versions = []
+    BRANCHES.each do |branch|
+      version = newest_firmware_version_for_branch(branch)
+      current_firmware_versions << [ branch, version, (SC_BRANCH[branch] || 0) ] if version
+    end
+    current_firmware_versions.sort_by! { |x| x[1] }
+    current_firmware_versions.reverse!
+    return current_firmware_versions
+  end
+
+  def self.newest_firmware_version_for_branch(branch)
+    #DEBUG
+    #return [0, 3, 999, 20140527] if branch == "testing"
+
+    begin
+      manifeststr = open(MANIFESTSRC.sub("%BRANCH%", branch),'r:UTF-8').read
+    rescue
+      return nil
+    end
+    
+    return self.extract_newest_firmware_version(manifeststr)
+  end
+
+  def self.extract_newest_firmware_version(manifeststr)
+    max_version = nil
+    manifeststr.each_line do |line|
+      if line =~ /^\S+\s(#{VERSION_PATTERN})\s/
+        version = parse_firmware($1)
+        max_version = version if not max_version or compare_firmware_versions(version, max_version) > 0
+      end
+    end
+    return max_version
+  end
+
+  def self.compare_firmware_versions(a, b)
+    a = parse_firmware(a) unless a.is_a? Array
+    b = parse_firmware(b) unless b.is_a? Array
+
+    return a <=> b
+  end
+
+  def self.parse_firmware(fwstr)
+    m = /^#{VERSION_PATTERN}$/.match(fwstr)
+    return m && m.captures.collect { |x| x.to_i || x }
   end
 
   private
@@ -157,6 +248,12 @@ class Scores
     return routers
   end
 
+  def self.score_firmware_for_snapshot(snapshot, current_firmware_versions)
+    snapshot.each do |node|
+      node['firmware_info'] = score_firmware(current_firmware_versions, node['firmware'])
+    end
+  end
+
   #calculate and add points for node in current round and set info for html
   def self.calc_points(node)
     #reset current status data
@@ -177,6 +274,8 @@ class Scores
 
     p[0] += ( node['sc_vpns'] = node['vpns'].map{|e| SC_PERVPN / e}.inject(&:+).to_i )
     p[0] += ( node['sc_meshs'] = node['meshs'].map{|e| SC_PERMESH / e}.inject(&:+).to_i )
+
+    p[0] += ( node['sc_firmware'] = ( (node['firmware_info'] && node['firmware_info'][1]) || 0 ).to_i )
   end
 
   #update scores, add new nodes, remove old nodes with <=0 points
@@ -194,6 +293,7 @@ class Scores
       s['meshs'] = []
       s['clients'] = 0
       s['apples'] = 0
+      s['firmware_info'] = ["?", 0]
       calc_points s
     end
 

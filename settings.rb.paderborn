@@ -14,6 +14,9 @@ GRAPHLINK='http://map.paderborn.freifunk.net/'
 
 #source path of node data
 JSONSRC='http://map.paderborn.freifunk.net/nodes.json'
+MANIFESTSRC='http://firmware.paderborn.freifunk.net/%BRANCH%/manifest'
+BRANCHES=["stable", "testing"]
+VERSION_PATTERN=/([0-9])\.([0-9]+).([0-9]+)-\D*(\d+)/
 
 #password for commands over GET requests
 if File.exists? 'pwd.secret'
@@ -28,6 +31,8 @@ SC_GATEWAY=100
 SC_PERCLIENT=25
 SC_PERVPN=10 #divided by quality
 SC_PERMESH=50 #divided by quality
+SC_OLDFIRMWARE=-10
+SC_BRANCH={"stable" => 0, "testing" => 20}
 
 #fun option - penalty for Apple devices connected
 PUNISHAPPLE=false

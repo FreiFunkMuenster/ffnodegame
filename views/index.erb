@@ -25,15 +25,31 @@
         <div>
             <table>
                 <tr><th>#</th><th>Name</th><th>Letzter Status</th><th>Punkte</th></tr>
+<%
+def format_score(name, value, show=:default)
+  if show && (show!=:default || value != 0) && value
+    str = name + ": "
+    str += '<span class="' + (value > 0 ? "pos" : (value < 0 ? "neg" : "zero")) + '">'
+    str += "+" if value > 0
+    str += value.to_s
+    str += "</span>"
+    return str
+  else
+    return ""
+  end
+end
+%>
                 <% @scores.each_with_index do |n,i| %>
                     <tr><td><%= i+1 %></td><td><%= n['name'] %></td>
                     <td>
-                        <% if n['sc_offline']!=0 %>Off: <span class="neg"><%= n['sc_offline'] %></span><% end %>
-                        <% if n['sc_gateway']!=0 %>Gw: <span class="pos">+<%= n['sc_gateway'] %></span><% end %>
-                        <% if n['sc_clients']!=0 %>Client: <span class="pos">+<%= n['sc_clients'] %></span><% end %>
-                        <% if n['sc_apples']!=0 %>Apple: <span class="neg"><%= n['sc_apples'] %></span><% end %>
-                        <% if n['sc_meshs']!=0 %>Mesh: <span class="pos">+<%= n['sc_meshs'] %></span><% end %>
-                        <% if n['sc_vpns']!=0 %>Vpn: <span class="pos">+<%= n['sc_vpns'] %></span><% end %>
+                        <%= format_score("Off",    n['sc_offline']) %>
+                        <%= format_score("Gw",     n['sc_gateway']) %>
+                        <%= format_score("Client", n['sc_clients']) %>
+                        <%= format_score("Apple",  n['sc_apples']) %>
+                        <%= format_score("Mesh",   n['sc_meshs']) %>
+                        <%= format_score("Vpn",    n['sc_vpns']) %>
+                        <%= format_score("Fw",     n['sc_firmware'], n['firmware_info']) %>
+			<% if n['firmware_info'] && n['sc_firmware'] %>(<%= n['firmware_info'][0] %>)<% end %>
                     </td>
                     <td><%= adjust_points(n['points']) %></td></tr>
                 <% end %>
