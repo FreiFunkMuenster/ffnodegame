@@ -35,7 +35,7 @@
                         <% if n['sc_meshs']!=0 %>Mesh: <span class="pos">+<%= n['sc_meshs'] %></span><% end %>
                         <% if n['sc_vpns']!=0 %>Vpn: <span class="pos">+<%= n['sc_vpns'] %></span><% end %>
                     </td>
-                    <td><%= n['points'] %></td></tr>
+                    <td><%= adjust_points(n['points']) %></td></tr>
                 <% end %>
             </table>
             <h3 style="margin-bottom:2px;">Bewertung (stündlich)</h3>

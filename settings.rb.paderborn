@@ -42,3 +42,8 @@ BLACKLIST=["Gateway 1 des C3PB e.V."]
 
 #enable logging
 LOG=true
+
+#we update more often, so we adjust the points accordingly
+def adjust_points(points)
+  points / 12
+end

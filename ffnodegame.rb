@@ -12,6 +12,12 @@ require 'sinatra'
 require './settings'
 require './scores'
 
+unless defined? adjust_points
+  def adjust_points(points)
+    points
+  end
+end
+
 log "---- APPLICATION STARTING ----"
 
 get '/update' do
