@@ -39,15 +39,15 @@
                 <% end %>
             </table>
             <h3 style="margin-bottom:2px;">Bewertung (stündlich)</h3>
-            <strong>Offline</strong>: -100
-            <strong>pro Client</strong>: 25
-            <strong>pro Mesh-Link</strong>: 50/Qualität
-            <strong>pro VPN-Link</strong>: 10/Qualität
+            <strong>Offline</strong>: <%= SC_OFFLINE %>
+            <strong>pro Client</strong>: <%= SC_PERCLIENT %>
+            <strong>pro Mesh-Link</strong>: <%= SC_PERMESH %>/Qualität
+            <strong>pro VPN-Link</strong>: <%= SC_PERVPN %>/Qualität
             <br />
             <br />
         </div>
         <a class="footer link" href="<%= GRAPHLINK %>">Knotengraph</a>
         <span class="footer link">© 2012 Anton Pirogov</span>
-        <a class="footer link" href="http://github.com/apirogov/ffnodegame">ffnodegame source</a>
+        <a class="footer link" href="http://github.com/BBBSnowball/ffnodegame">ffnodegame source</a>
     </body>
 </html>
