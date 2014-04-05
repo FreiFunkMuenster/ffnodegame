@@ -10,6 +10,7 @@ while !result
   begin
     result = Scores.update
   rescue
+    log 'Error in score update: ' + $!.inspect + ", " + $@.inspect
     result = false
   end
   if !result
