@@ -16,7 +16,7 @@ GRAPHLINK='http://map.paderborn.freifunk.net/'
 JSONSRC='http://map.paderborn.freifunk.net/nodes.json'
 MANIFESTSRC='http://firmware.paderborn.freifunk.net/%BRANCH%/manifest'
 BRANCHES=["stable", "testing"]
-VERSION_PATTERN=/([0-9])\.([0-9]+).([0-9]+)-\D*(\d+)/
+VERSION_PATTERN=/([0-9])\.([0-9]+)(:?.([0-9]+))?[-~](?:\D*(\d*))?/
 
 #password for commands over GET requests
 if File.exists? 'pwd.secret'
