@@ -42,7 +42,7 @@ SC_PERAPPLE=-15
 #----
 
 #hide following nodes from scores
-BLACKLIST=["Gateway 1 des C3PB e.V.", "Gateway 2 des C3PB e.V."]
+BLACKLIST=[/^Gateway \d+ des C3PB e\.V\.$/, /^[kK]ulte-/, /^ffpb-/]
 
 #----
 
